@@ -1,0 +1,10 @@
+{
+  "Id": "KingmakerBugfixes",
+  "DisplayName": "Community bugfixes for Pathfinder Kingmaker",
+  "Author": "Soldier9",
+  "Version": "1.0.0",
+  "ManagerVersion": "0.17.0",
+  "HomePage": "https://www.nexusmods.com/pathfinderkingmaker/mods/",
+  "AssemblyName": "Bugfixes.dll",
+  "EntryMethod": "Bugfixes.Main.Load"
+}
