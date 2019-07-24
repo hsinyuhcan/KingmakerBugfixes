@@ -54,7 +54,9 @@
     <Compile Include="HarmonyPatches\UnloadingFix.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Info.json" />
+    <None Include="Info.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="References\0Harmony12.dll" />
