@@ -2,7 +2,7 @@
 using Harmony12;
 using Kingmaker.Visual.Decals;
 
-namespace KingmakerBugfixes.HarmonyPatches
+namespace Bugfixes.HarmonyPatches
 {
     internal static class GUIDecalFix
     {

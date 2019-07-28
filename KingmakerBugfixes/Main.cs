@@ -1,29 +1,53 @@
-﻿using Harmony12;
+﻿using ModMaker;
+using ModMaker.Utility;
+using System.Reflection;
 using UnityModManagerNet;
 
 namespace Bugfixes
 {
-    public class Main
+#if (DEBUG)
+    [EnableReloading]
+#endif
+    static class Main
     {
-        public static UnityModManager.ModEntry.ModLogger Logger;
+        public static ModManager<Core, Settings> Mod;
+        public static MenuManager Menu;
 
-        public static bool Load(UnityModManager.ModEntry modEntry)
+        static bool Load(UnityModManager.ModEntry modEntry)
         {
-            Logger = modEntry.Logger;
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            Mod = new ModManager<Core, Settings>(modEntry, assembly);
+            Menu = new MenuManager(modEntry, assembly);
             modEntry.OnToggle = OnToggle;
+#if (DEBUG)
+            modEntry.OnUnload = Unload;
             return true;
         }
 
-        static bool OnToggle(UnityModManager.ModEntry modEntry, bool active)
+        static bool Unload(UnityModManager.ModEntry modEntry)
         {
-            HarmonyInstance harmony = HarmonyInstance.Create(modEntry.Info.Id);
-            if (active)
+            Menu = null;
+            Mod.Disable(modEntry, true);
+            Mod = null;
+            return true;
+        }
+#else
+            return true;
+        }
+#endif
+
+        static bool OnToggle(UnityModManager.ModEntry modEntry, bool value)
+        {
+            if (value)
             {
-                harmony.PatchAll();
+                Mod.Enable(modEntry);
+                Menu.Enable(modEntry);
             }
             else
             {
-                harmony.UnpatchAll();
+                Menu.Disable(modEntry);
+                Mod.Disable(modEntry, false);
+                ReflectionCache.Clear();
             }
             return true;
         }
